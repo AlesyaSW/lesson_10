@@ -1,27 +1,40 @@
-
+from data.user import User
 from pages.registration_page import RegistrationPage
 
 FILE = 'test.png'
 
 
-def test_open(preparations, remove_advertisment):
-    registration_page = RegistrationPage()
-    registration_page.set_first_name('Alesya'). \
-        set_last_name('Family'). \
-        set_email_name('vititi5980@vootin.com'). \
-        select_gender('Female'). \
-        fill_number('8923456323'). \
-        fill_date_of_birth('2005', 'April', '18'). \
-        fill_subjects('English'). \
-        select_hobbies('Reading'). \
-        upload_document(f'/resources/{FILE}'). \
-        fill_address('test test'). \
-        select_state('NCR'). \
-        select_city('Delhi'). \
-        submit_click(). \
-        should_registered_user_with('Alesya Family', 'vititi5980@vootin.com', 'Female', '8923456323',
-                                                  '18 April,2005', 'English', 'Reading', 'test.png',
-                                                  'test test', 'NCR Delhi')
+def test_registration_user(preparations, remove_advertisment):
 
+    alesya = User(
+        first_name='Alesya',
+        last_name='Family',
+        email='vititi5980@vootin.com',
+        gender='Female',
+        mobile_phone='8923456323',
+        date_of_birth=('2005', 'April', '18'),
+        subjects='English',
+        hobbies='Reading',
+        upload_file='test.png',
+        address='test test',
+        state='NCR',
+        city='Delhi'
+    )
+
+    registration_page = RegistrationPage()
+
+    registration_page.fill_registration_form(alesya)
+    registration_page.should_registered_user_with(
+        full_name=f'{alesya.first_name} {alesya.last_name}',
+        email=alesya.email,
+        gender=alesya.gender,
+        number=alesya.mobile_phone,
+        dateofbirth=f'{alesya.date_of_birth[2]} {alesya.date_of_birth[1]},{alesya.date_of_birth[0]}',
+        subjects=alesya.subjects,
+        hobbies=alesya.hobbies,
+        photo=alesya.upload_file,
+        address=alesya.address,
+        stateandcity=f'{alesya.state} {alesya.city}'
+    )
 
 

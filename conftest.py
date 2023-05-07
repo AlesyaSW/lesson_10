@@ -9,6 +9,7 @@ def preparations():
     browser.config.window_height = 1000
     browser.open('https://demoqa.com/automation-practice-form')
 
+
 @pytest.fixture
 def remove_advertisment():
     browser.execute_script('document.querySelector("footer").remove()')
