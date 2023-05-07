@@ -1,6 +1,7 @@
 import os
-from selene.support.shared import browser
+
 from selene import be, have
+from selene.support.shared import browser
 
 
 class RegistrationPage:
@@ -23,6 +24,30 @@ class RegistrationPage:
         self.city = browser.element("[id=city]")
         self.city_select = browser.element("[id=react-select-4-option-0]")
         self.submit = browser.element("[id=submit]")
+
+    def fill_registration_form(self, user):
+        self.set_first_name(user.first_name)
+        self.set_last_name(user.last_name)
+        self.set_email_name(user.email)
+        self.select_gender(user.gender)
+        self.fill_number(user.mobile_phone)
+        self.fill_date_of_birth(*user.date_of_birth)
+        self.select_hobbies(user.hobbies)
+        self.fill_subjects(user.subjects)
+        self.upload_document(f'/resources/{user.upload_file}')
+        self.fill_address(user.address)
+        self.select_state(user.state)
+        self.select_city(user.city)
+        self.submit_click()
+
+
+    def open(self):
+        browser.config.hold_browser_open = True
+        browser.config.window_width = 1224
+        browser.config.window_height = 1000
+        browser.open('https://demoqa.com/automation-practice-form')
+        return self
+
 
     def set_first_name(self, first_name):
         self.first_name.should(be.blank).type(first_name)
